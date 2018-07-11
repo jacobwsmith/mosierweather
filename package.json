@@ -9,7 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deploy": "npm run build && gh-pages -d dist/mosierweather"
+    "deploy": "npm run build && gh-pages -d dist/mosierweather -s '{index.html,*.js, *.icon, *.map, *.txt}'"
   },
   "private": true,
   "dependencies": {
