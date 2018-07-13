@@ -4,7 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Demo
 
-`https://jacobwsmith.github.io/mosierweather/`
+[https://jacobwsmith.github.io/mosierweather/](https://jacobwsmith.github.io/mosierweather/)
 
 ## Development server
 
