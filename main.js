@@ -41,7 +41,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h1>Mosier Weather</h1>\n<app-dashboard></app-dashboard>\n\n"
+module.exports = "<app-dashboard></app-dashboard>\n\n"
 
 /***/ }),
 
@@ -152,7 +152,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<highcharts-chart [Highcharts]=\"Highcharts\" [options]=\"chartOptions\" constructorType=\"stockChart\" style=\"width: 100%; height: 500px; display: block;\"></highcharts-chart>\n"
+module.exports = "<highcharts-chart *ngIf=\"chartOptions\" [Highcharts]=\"Highcharts\" [options]=\"chartOptions\" constructorType=\"stockChart\" style=\"width: 100%; height: 500px; display: block;\"></highcharts-chart>\n"
 
 /***/ }),
 
@@ -187,37 +187,53 @@ var DashboardComponent = /** @class */ (function () {
     function DashboardComponent(dashboardService) {
         this.dashboardService = dashboardService;
         this.Highcharts = highcharts_highstock__WEBPACK_IMPORTED_MODULE_2__;
-        this.chartOptions = {
-            title: {
-                text: 'Dashboard'
-            },
-            series: [
-                {
-                    name: 'Wind',
-                    data: []
-                }
-            ]
-        };
     }
     DashboardComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.dashboardService.getSevenDayForecast().subscribe(function (res) {
             console.log('res: ', JSON.stringify(res));
             _this.chartOptions = {
-                // rangeSelector: {
-                //   selected: 1
-                // },
+                rangeSelector: {
+                    selected: 1
+                },
                 title: {
-                    text: 'Dashboard'
+                    text: 'Mosier Weather 7 Day Forecast',
+                    align: 'left'
+                },
+                xAxis: {
+                    // tickmarkPlacement: 'on',
+                    alternateGridColor: '#f7f7f7',
+                    dateTimeLabelFormats: {
+                        // second: '%Y-%m-%d<br/>%H:%M:%S',
+                        // minute: '%Y-%m-%d<br/>%H:%M',
+                        // hour: '%Y-%m-%d<br/>%H:%M',
+                        day: '%Y<br/>%m-%d',
+                        week: '%Y<br/>%m-%d',
+                        month: '%Y-%m',
+                        year: '%Y'
+                    }
+                },
+                yAxis: {
+                    // alternateGridColor: '#FDFFD5',
+                    labels: {
+                        format: '{value} mph'
+                    },
                 },
                 series: [
                     {
                         name: 'Wind',
-                        data: res // [[1468416600000, 1], [1470835800000, 2], [1531498700000, 10]],
-                        // tooltip: {
-                        //   valueDecimals: 2
-                        // }
+                        data: res
                     }
+                    // {
+                    //   type: 'flags',
+                    //   data: [
+                    //     {
+                    //       x: 1531663200000,
+                    //       title: '1',
+                    //       text: 'Test Flag here'
+                    //     }
+                    //   ]
+                    // }
                 ]
             };
         });
