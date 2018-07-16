@@ -11,17 +11,7 @@ import * as Highcharts from 'highcharts/highstock';
 })
 export class DashboardComponent implements OnInit {
   Highcharts = Highcharts;
-  chartOptions = {
-    title: {
-      text: 'Dashboard'
-    },
-    series: [
-      {
-        name: 'Wind',
-        data: []
-      }
-    ]
-  };
+  chartOptions: any;
 
   constructor(private dashboardService: DashboardService) {}
 
@@ -29,20 +19,49 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.getSevenDayForecast().subscribe(res => {
       console.log('res: ', JSON.stringify(res));
       this.chartOptions = {
-        // rangeSelector: {
-        //   selected: 1
-        // },
+        rangeSelector: {
+          selected: 1
+        },
         title: {
-          text: 'Dashboard'
+          text: 'Mosier Weather 7 Day Forecast',
+          align: 'left'
+        },
+        xAxis: {
+          // tickmarkPlacement: 'on',
+
+          alternateGridColor: '#f7f7f7', // TODO: this needs to be sunrise/sunset
+          dateTimeLabelFormats: {
+            // second: '%Y-%m-%d<br/>%H:%M:%S',
+            // minute: '%Y-%m-%d<br/>%H:%M',
+            // hour: '%Y-%m-%d<br/>%H:%M',
+            day: '%Y<br/>%m-%d',
+            week: '%Y<br/>%m-%d',
+            month: '%Y-%m',
+            year: '%Y'
+          }
+        },
+        yAxis: {
+          // alternateGridColor: '#FDFFD5',
+          labels: {
+            format: '{value} mph'
+          },
+
         },
         series: [
           {
             name: 'Wind',
-            data: res // [[1468416600000, 1], [1470835800000, 2], [1531498700000, 10]],
-            // tooltip: {
-            //   valueDecimals: 2
-            // }
+            data: res
           }
+          // {
+          //   type: 'flags',
+          //   data: [
+          //     {
+          //       x: 1531663200000,
+          //       title: '1',
+          //       text: 'Test Flag here'
+          //     }
+          //   ]
+          // }
         ]
       };
     });
