@@ -52,6 +52,8 @@ export class DashboardComponent implements OnInit {
             name: 'Wind',
             data: res
           }
+          // TODO: needs Air Temp
+          // TODO: needs sunrise/sunset: https://github.com/mourner/suncalc
           // {
           //   type: 'flags',
           //   data: [
