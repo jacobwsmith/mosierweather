@@ -16,20 +16,20 @@ export class DashboardComponent implements OnInit {
   constructor(private dashboardService: DashboardService) {}
 
   ngOnInit() {
-    this.dashboardService.getSevenDayForecast().subscribe(res => {
-      console.log('res: ', JSON.stringify(res));
+    this.dashboardService.getSevenDayForecast().subscribe(({ windSpeed, temperature }) => {
+      console.log('res: ', JSON.stringify(windSpeed));
       this.chartOptions = {
-        rangeSelector: {
-          selected: 1
-        },
         title: {
           text: 'Mosier Weather 7 Day Forecast',
           align: 'left'
         },
+        time: {
+          timezoneOffset: 8 * 60
+        },
         xAxis: {
           // tickmarkPlacement: 'on',
 
-          alternateGridColor: '#f7f7f7', // TODO: this needs to be sunrise/sunset
+          // alternateGridColor: '#f7f7f7', // TODO: this needs to be sunrise/sunset
           dateTimeLabelFormats: {
             // second: '%Y-%m-%d<br/>%H:%M:%S',
             // minute: '%Y-%m-%d<br/>%H:%M',
@@ -40,30 +40,55 @@ export class DashboardComponent implements OnInit {
             year: '%Y'
           }
         },
-        yAxis: {
-          // alternateGridColor: '#FDFFD5',
-          labels: {
-            format: '{value} mph'
+        yAxis: [
+          {
+            labels: {
+              format: '{value} mph',
+              style: {
+                color: Highcharts.getOptions().colors[0]
+              }
+            },
+            title: {
+              text: 'Wind',
+              style: {
+                color: Highcharts.getOptions().colors[0]
+              }
+            },
+            height: 300
           },
-
-        },
+          {
+            labels: {
+              format: '{value} F',
+              style: {
+                color: Highcharts.getOptions().colors[2]
+              }
+            },
+            title: {
+              text: 'Temperature',
+              style: {
+                color: Highcharts.getOptions().colors[2]
+              }
+            },
+            top: 400,
+            height: 100,
+            offset: 0
+          }
+        ],
         series: [
           {
             name: 'Wind',
-            data: res
+            data: windSpeed,
+            yAxis: 0,
+            // type: 'column'
+            color: Highcharts.getOptions().colors[0]
+          },
+          {
+            name: 'Temperature',
+            data: temperature,
+            yAxis: 1,
+            // type: 'column'
+            color: Highcharts.getOptions().colors[2]
           }
-          // TODO: needs Air Temp
-          // TODO: needs sunrise/sunset: https://github.com/mourner/suncalc
-          // {
-          //   type: 'flags',
-          //   data: [
-          //     {
-          //       x: 1531663200000,
-          //       title: '1',
-          //       text: 'Test Flag here'
-          //     }
-          //   ]
-          // }
         ]
       };
     });

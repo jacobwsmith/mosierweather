@@ -14,13 +14,19 @@ export class DashboardService {
     const url = 'https://forecast.weather.gov/MapClick.php?lat=45.6834528&lon=-121.397295&FcstType=digitalJSON';
     return this.http.get<RootObject>(url).pipe(
       map(data => {
-
         // data = TEST_DATA;
-        return Object.entries(data.PeriodNameList)
-          .map(([index, name]) => {
-            return this.extractItem(data[name], 'windSpeed');
-          })
-          .reduce((a, b) => a.concat(b), []);
+        return {
+          windSpeed: Object.entries(data.PeriodNameList)
+            .map(([index, name]) => {
+              return this.extractItem(data[name], 'windSpeed');
+            })
+            .reduce((a, b) => a.concat(b), []),
+          temperature: Object.entries(data.PeriodNameList)
+            .map(([index, name]) => {
+              return this.extractItem(data[name], 'temperature');
+            })
+            .reduce((a, b) => a.concat(b), [])
+        };
       })
     );
   }
