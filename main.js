@@ -152,7 +152,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<highcharts-chart *ngIf=\"chartOptions\" [Highcharts]=\"Highcharts\" [options]=\"chartOptions\" constructorType=\"stockChart\" style=\"width: 100%; height: 500px; display: block;\"></highcharts-chart>\n"
+module.exports = "<highcharts-chart *ngIf=\"chartOptions\" [Highcharts]=\"Highcharts\" [options]=\"chartOptions\" constructorType=\"stockChart\" style=\"width: 100%; height: 650px; display: block;\"></highcharts-chart>\n"
 
 /***/ }),
 
@@ -190,19 +190,20 @@ var DashboardComponent = /** @class */ (function () {
     }
     DashboardComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.dashboardService.getSevenDayForecast().subscribe(function (res) {
-            console.log('res: ', JSON.stringify(res));
+        this.dashboardService.getSevenDayForecast().subscribe(function (_a) {
+            var windSpeed = _a.windSpeed, temperature = _a.temperature;
+            console.log('res: ', JSON.stringify(windSpeed));
             _this.chartOptions = {
-                rangeSelector: {
-                    selected: 1
-                },
                 title: {
                     text: 'Mosier Weather 7 Day Forecast',
                     align: 'left'
                 },
+                time: {
+                    timezoneOffset: 8 * 60
+                },
                 xAxis: {
                     // tickmarkPlacement: 'on',
-                    alternateGridColor: '#f7f7f7',
+                    // alternateGridColor: '#f7f7f7', // TODO: this needs to be sunrise/sunset
                     dateTimeLabelFormats: {
                         // second: '%Y-%m-%d<br/>%H:%M:%S',
                         // minute: '%Y-%m-%d<br/>%H:%M',
@@ -213,27 +214,55 @@ var DashboardComponent = /** @class */ (function () {
                         year: '%Y'
                     }
                 },
-                yAxis: {
-                    // alternateGridColor: '#FDFFD5',
-                    labels: {
-                        format: '{value} mph'
+                yAxis: [
+                    {
+                        labels: {
+                            format: '{value} mph',
+                            style: {
+                                color: highcharts_highstock__WEBPACK_IMPORTED_MODULE_2__["getOptions"]().colors[0]
+                            }
+                        },
+                        title: {
+                            text: 'Wind',
+                            style: {
+                                color: highcharts_highstock__WEBPACK_IMPORTED_MODULE_2__["getOptions"]().colors[0]
+                            }
+                        },
+                        height: 300
                     },
-                },
+                    {
+                        labels: {
+                            format: '{value} F',
+                            style: {
+                                color: highcharts_highstock__WEBPACK_IMPORTED_MODULE_2__["getOptions"]().colors[2]
+                            }
+                        },
+                        title: {
+                            text: 'Temperature',
+                            style: {
+                                color: highcharts_highstock__WEBPACK_IMPORTED_MODULE_2__["getOptions"]().colors[2]
+                            }
+                        },
+                        top: 400,
+                        height: 100,
+                        offset: 0
+                    }
+                ],
                 series: [
                     {
                         name: 'Wind',
-                        data: res
+                        data: windSpeed,
+                        yAxis: 0,
+                        // type: 'column'
+                        color: highcharts_highstock__WEBPACK_IMPORTED_MODULE_2__["getOptions"]().colors[0]
+                    },
+                    {
+                        name: 'Temperature',
+                        data: temperature,
+                        yAxis: 1,
+                        // type: 'column'
+                        color: highcharts_highstock__WEBPACK_IMPORTED_MODULE_2__["getOptions"]().colors[2]
                     }
-                    // {
-                    //   type: 'flags',
-                    //   data: [
-                    //     {
-                    //       x: 1531663200000,
-                    //       title: '1',
-                    //       text: 'Test Flag here'
-                    //     }
-                    //   ]
-                    // }
                 ]
             };
         });
@@ -287,12 +316,20 @@ var DashboardService = /** @class */ (function () {
         var url = 'https://forecast.weather.gov/MapClick.php?lat=45.6834528&lon=-121.397295&FcstType=digitalJSON';
         return this.http.get(url).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (data) {
             // data = TEST_DATA;
-            return Object.entries(data.PeriodNameList)
-                .map(function (_a) {
-                var index = _a[0], name = _a[1];
-                return _this.extractItem(data[name], 'windSpeed');
-            })
-                .reduce(function (a, b) { return a.concat(b); }, []);
+            return {
+                windSpeed: Object.entries(data.PeriodNameList)
+                    .map(function (_a) {
+                    var index = _a[0], name = _a[1];
+                    return _this.extractItem(data[name], 'windSpeed');
+                })
+                    .reduce(function (a, b) { return a.concat(b); }, []),
+                temperature: Object.entries(data.PeriodNameList)
+                    .map(function (_a) {
+                    var index = _a[0], name = _a[1];
+                    return _this.extractItem(data[name], 'temperature');
+                })
+                    .reduce(function (a, b) { return a.concat(b); }, [])
+            };
         }));
     };
     DashboardService.prototype.extractItem = function (item, type) {
