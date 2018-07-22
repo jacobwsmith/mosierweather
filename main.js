@@ -97,12 +97,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var highcharts_angular__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! highcharts-angular */ "./node_modules/highcharts-angular/fesm5/highcharts-angular.js");
 /* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
 /* harmony import */ var _dashboard_dashboard_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./dashboard/dashboard.component */ "./src/app/dashboard/dashboard.component.ts");
+/* harmony import */ var _shared_loading_loading_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./shared/loading/loading.component */ "./src/app/shared/loading/loading.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -116,7 +118,8 @@ var AppModule = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
             declarations: [
                 _app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"],
-                _dashboard_dashboard_component__WEBPACK_IMPORTED_MODULE_5__["DashboardComponent"]
+                _dashboard_dashboard_component__WEBPACK_IMPORTED_MODULE_5__["DashboardComponent"],
+                _shared_loading_loading_component__WEBPACK_IMPORTED_MODULE_6__["LoadingComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -152,7 +155,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<highcharts-chart *ngIf=\"chartOptions\" [Highcharts]=\"Highcharts\" [options]=\"chartOptions\" constructorType=\"stockChart\" style=\"width: 100%; height: 650px; display: block;\"></highcharts-chart>\n"
+module.exports = "<app-loading *ngIf=\"!chartOptions\"></app-loading>\n<highcharts-chart *ngIf=\"chartOptions\" [Highcharts]=\"Highcharts\" [options]=\"chartOptions\" constructorType=\"stockChart\" style=\"width: 100%; height: 650px; display: block;\"></highcharts-chart>\n"
 
 /***/ }),
 
@@ -1128,6 +1131,69 @@ var TEST_DATA = {
         ]
     }
 };
+
+
+/***/ }),
+
+/***/ "./src/app/shared/loading/loading.component.css":
+/*!******************************************************!*\
+  !*** ./src/app/shared/loading/loading.component.css ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".root-spinner {\n  height: 100vh;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.spinner {\n  -webkit-animation: rotator 1.4s linear infinite;\n          animation: rotator 1.4s linear infinite;\n}\n\n@-webkit-keyframes rotator {\n  0% {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg);\n  }\n  100% {\n    -webkit-transform: rotate(270deg);\n            transform: rotate(270deg);\n  }\n}\n\n@keyframes rotator {\n  0% {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg);\n  }\n  100% {\n    -webkit-transform: rotate(270deg);\n            transform: rotate(270deg);\n  }\n}\n\n.path {\n  stroke-dasharray: 187;\n  stroke-dashoffset: 0;\n  -webkit-transform-origin: center;\n          transform-origin: center;\n  -webkit-animation: dash 1.4s ease-in-out infinite,\n  colors 5.6s ease-in-out infinite;\n          animation: dash 1.4s ease-in-out infinite,\n  colors 5.6s ease-in-out infinite;\n}\n\n@-webkit-keyframes colors {\n  0% {\n    stroke: #4285F4;\n  }\n  25% {\n    stroke: #DE3E35;\n  }\n  50% {\n    stroke: #F7C223;\n  }\n  75% {\n    stroke: #1B9A59;\n  }\n  100% {\n    stroke: #4285F4;\n  }\n}\n\n@keyframes colors {\n  0% {\n    stroke: #4285F4;\n  }\n  25% {\n    stroke: #DE3E35;\n  }\n  50% {\n    stroke: #F7C223;\n  }\n  75% {\n    stroke: #1B9A59;\n  }\n  100% {\n    stroke: #4285F4;\n  }\n}\n\n@-webkit-keyframes dash {\n  0% {\n    stroke-dashoffset: 187;\n  }\n  50% {\n    stroke-dashoffset: 46.75;\n    -webkit-transform: rotate(135deg);\n            transform: rotate(135deg);\n  }\n  100% {\n    stroke-dashoffset: 187;\n    -webkit-transform: rotate(450deg);\n            transform: rotate(450deg);\n  }\n}\n\n@keyframes dash {\n  0% {\n    stroke-dashoffset: 187;\n  }\n  50% {\n    stroke-dashoffset: 46.75;\n    -webkit-transform: rotate(135deg);\n            transform: rotate(135deg);\n  }\n  100% {\n    stroke-dashoffset: 187;\n    -webkit-transform: rotate(450deg);\n            transform: rotate(450deg);\n  }\n}\n"
+
+/***/ }),
+
+/***/ "./src/app/shared/loading/loading.component.html":
+/*!*******************************************************!*\
+  !*** ./src/app/shared/loading/loading.component.html ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"root-spinner\">\n  <svg class=\"spinner\" width=\"65px\" height=\"65px\" viewBox=\"0 0 66 66\" xmlns=\"http://www.w3.org/2000/svg\">\n    <circle class=\"path\" fill=\"none\" stroke-width=\"6\" stroke-linecap=\"round\" cx=\"33\" cy=\"33\" r=\"30\"></circle>\n  </svg>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/shared/loading/loading.component.ts":
+/*!*****************************************************!*\
+  !*** ./src/app/shared/loading/loading.component.ts ***!
+  \*****************************************************/
+/*! exports provided: LoadingComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoadingComponent", function() { return LoadingComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var LoadingComponent = /** @class */ (function () {
+    function LoadingComponent() {
+    }
+    LoadingComponent.prototype.ngOnInit = function () {
+    };
+    LoadingComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-loading',
+            template: __webpack_require__(/*! ./loading.component.html */ "./src/app/shared/loading/loading.component.html"),
+            styles: [__webpack_require__(/*! ./loading.component.css */ "./src/app/shared/loading/loading.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], LoadingComponent);
+    return LoadingComponent;
+}());
+
 
 
 /***/ }),
