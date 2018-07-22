@@ -195,11 +195,17 @@ var DashboardComponent = /** @class */ (function () {
         var _this = this;
         this.dashboardService.getSevenDayForecast().subscribe(function (_a) {
             var windSpeed = _a.windSpeed, temperature = _a.temperature;
-            console.log('res: ', JSON.stringify(windSpeed));
+            // console.log('res: ', JSON.stringify(windSpeed));
             _this.chartOptions = {
                 title: {
                     text: 'Mosier Weather 7 Day Forecast',
                     align: 'left'
+                },
+                credits: {
+                    enabled: false
+                },
+                rangeSelector: {
+                    enabled: false
                 },
                 time: {
                     timezoneOffset: 8 * 60
@@ -231,7 +237,24 @@ var DashboardComponent = /** @class */ (function () {
                                 color: highcharts_highstock__WEBPACK_IMPORTED_MODULE_2__["getOptions"]().colors[0]
                             }
                         },
-                        height: 300
+                        height: 300,
+                        // plotBands: [{
+                        //   color: '#FCFFC5', // Color value
+                        //   from: 15, // Start of the plot band
+                        //   to: 40, // End of the plot band
+                        //   label: {
+                        //     text: 'Kiteable', // Content of the label.
+                        //     align: 'left', // Positioning of the label.
+                        //     // Default to center. x: +10 // Amount of pixels the label will be repositioned according to the alignment.
+                        //   }
+                        // }],
+                        plotLines: [{
+                                color: 'red',
+                                dashStyle: 'dash',
+                                value: 15,
+                                width: 2,
+                            }],
+                        minRange: 20
                     },
                     {
                         labels: {
