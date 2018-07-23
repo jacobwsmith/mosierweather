@@ -71,18 +71,21 @@ export class DashboardComponent implements OnInit {
             //     // Default to center. x: +10 // Amount of pixels the label will be repositioned according to the alignment.
             //   }
             // }],
-            plotLines: [{
-              color: 'red', // Color value
-              dashStyle: 'dash', // Style of the plot line. Default to solid
-              value: 15, // Value of where the line will appear
-              width: 2, // Width of the line
-              // label: {
-              //   text: 'Kiteable', // Content of the label.
-              //   align: 'left', // Positioning of the label.
-              //   // Default to center. x: +10 // Amount of pixels the label will be repositioned according to the alignment.
-              // }
-            }],
-            minRange: 20
+            plotLines: [
+              {
+                color: 'red', // Color value
+                dashStyle: 'dash', // Style of the plot line. Default to solid
+                value: 15, // Value of where the line will appear
+                width: 2 // Width of the line
+                // label: {
+                //   text: 'Kiteable', // Content of the label.
+                //   align: 'left', // Positioning of the label.
+                //   // Default to center. x: +10 // Amount of pixels the label will be repositioned according to the alignment.
+                // }
+              }
+            ],
+            minRange: 20,
+            min: 0
           },
           {
             labels: {
@@ -107,8 +110,20 @@ export class DashboardComponent implements OnInit {
             name: 'Wind',
             data: windSpeed,
             yAxis: 0,
-            // type: 'column'
-            color: Highcharts.getOptions().colors[0]
+            type: 'area',
+            fillColor: {
+              linearGradient: {
+                x1: 0,
+                y1: 0,
+                x2: 0,
+                y2: 1
+              },
+              stops: [
+                [0, Highcharts.getOptions().colors[0]],
+                // [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')] // erroring out, hmmm!
+                [1, 'white']
+              ]
+            },
           },
           {
             name: 'Temperature',
