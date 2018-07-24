@@ -5,11 +5,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --prod ",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deploy": "npm run build --prod && gh-pages -d dist/mosierweather -s '{index.html,*.js, *.ico, *.map, *.txt}'"
+    "deploy": "npm run build && gh-pages -d dist/mosierweather -s '{index.html,*.js, *.ico, *.map, *.txt}'"
   },
   "private": true,
   "dependencies": {
