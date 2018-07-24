@@ -23,6 +23,7 @@
       .root-spinner {
         height: 100vh;
         display: flex;
+        visibility: hidden; /* override this if we have javascript */
         align-items: center;
         justify-content: center;
       }
@@ -80,11 +81,17 @@
         }
       }
     </style>
-    <div class="root-spinner">
+    <noscript>
+      <p>This site requires JavaScript. Please check your browser settings</p>
+    </noscript>
+    <div id="rootSpinner" class="root-spinner">
       <svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
         <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
       </svg>
     </div>
+    <script>
+      document.getElementById('rootSpinner').setAttribute('style', 'visibility: visible;');
+    </script>
 
   </app-root>
 
