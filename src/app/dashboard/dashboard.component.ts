@@ -18,6 +18,9 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.dashboardService.getSevenDayForecast().subscribe(({ windSpeed, temperature }) => {
       // console.log('res: ', JSON.stringify(windSpeed));
+
+      const sunsetSunrise = this.dashboardService.getSunsetSunrise(windSpeed);
+
       this.chartOptions = {
         title: {
           text: 'Mosier Weather 7 Day Forecast',
@@ -33,18 +36,14 @@ export class DashboardComponent implements OnInit {
           timezoneOffset: 8 * 60
         },
         xAxis: {
-          // tickmarkPlacement: 'on',
-
-          // alternateGridColor: '#f7f7f7', // TODO: this needs to be sunrise/sunset
           dateTimeLabelFormats: {
-            // second: '%Y-%m-%d<br/>%H:%M:%S',
-            // minute: '%Y-%m-%d<br/>%H:%M',
-            // hour: '%Y-%m-%d<br/>%H:%M',
             day: '%Y<br/>%m-%d',
             week: '%Y<br/>%m-%d',
             month: '%Y-%m',
             year: '%Y'
-          }
+          },
+          // TODO: represents night time
+          plotBands: sunsetSunrise,
         },
         yAxis: [
           {
@@ -61,27 +60,12 @@ export class DashboardComponent implements OnInit {
               }
             },
             height: 300,
-            // plotBands: [{
-            //   color: '#FCFFC5', // Color value
-            //   from: 15, // Start of the plot band
-            //   to: 40, // End of the plot band
-            //   label: {
-            //     text: 'Kiteable', // Content of the label.
-            //     align: 'left', // Positioning of the label.
-            //     // Default to center. x: +10 // Amount of pixels the label will be repositioned according to the alignment.
-            //   }
-            // }],
             plotLines: [
               {
                 color: 'red', // Color value
                 dashStyle: 'dash', // Style of the plot line. Default to solid
                 value: 15, // Value of where the line will appear
                 width: 2 // Width of the line
-                // label: {
-                //   text: 'Kiteable', // Content of the label.
-                //   align: 'left', // Positioning of the label.
-                //   // Default to center. x: +10 // Amount of pixels the label will be repositioned according to the alignment.
-                // }
               }
             ],
             minRange: 20,

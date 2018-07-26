@@ -4,6 +4,9 @@ import { map } from 'rxjs/operators';
 import { RootObject } from './dashboard';
 import { of } from 'rxjs';
 
+// var SunCalc = require('suncalc');
+import { getTimes } from 'suncalc';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -37,6 +40,34 @@ export class DashboardService {
       // NOTE: unixtime is missing digits and windSpeed need to be a number
       return [+(time + '000'), +item[type][index]];
     });
+  }
+
+  getSunsetSunrise(arr) {
+    return arr
+      .filter(res => {
+        // TODO: Test me. This could be an issue if looking at this from a
+        // different timezone...?
+        const hour = new Date(res[0]).getHours();
+        return hour === 23;
+      })
+      .map(res => {
+        // TODO: Test me. Seems to be some bugs around timezones in sunCalc package
+        const { sunrise, sunset } = getTimes(res[0], 45.6834528, -121.397295);
+        const to = sunrise;
+        const from = sunset;
+        return {
+          from,
+          to,
+          color: '#ffffed', // Light yellow
+          label: {
+            text: 'Daylight',
+            style: {
+              color: 'orange',
+              fontSize: '10px'
+            }
+          }
+        };
+      });
   }
 }
 
